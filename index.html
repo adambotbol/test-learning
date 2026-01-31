@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'HUB D'ADAM | Portail de Révision</title>
+    <style>
+        :root {
+            /* Palette Apple Liquid Glass */
+            --bg-light: #f5f5f7;
+            --bg-dark: #000000;
+            --accent: #0071e3;
+            --accent-soft: rgba(0, 113, 227, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-main: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --blur: 30px;
+        }
+
+        [data-theme="dark"] {
+            --bg-light: #000000;
+            --glass-bg: rgba(28, 28, 30, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f5f5f7;
+            --text-secondary: #a1a1a6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.6s ease;
+        }
+
+        /* --- BACKGROUND BLOBS --- */
+        .bg-blobs {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; filter: blur(100px);
+        }
+        .blob {
+            position: absolute; border-radius: 50%; opacity: 0.35;
+            animation: move 25s infinite alternate;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--accent); top: -150px; right: -150px; }
+        .blob-2 { width: 500px; height: 500px; background: #5e5ce6; bottom: -100px; left: -150px; }
+        @keyframes move { from { transform: translate(0,0); } to { transform: translate(80px, 40px); } }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            height: 80px; background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur)) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 10%;
+        }
+        .logo { font-weight: 800; font-size: 24px; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+
+        /* --- HERO SECTION --- */
+        header {
+            max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center;
+        }
+        h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; }
+        .intro-text {
+            font-size: 20px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 40px;
+            font-weight: 400; line-height: 1.5;
+        }
+
+        /* --- PRESENTATION SECTION --- */
+        .site-intro {
+            max-width: 1000px; margin: 0 auto 80px;
+            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--glass-border); border-radius: 40px;
+            padding: 50px; box-shadow: var(--card-shadow);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+        }
+        .intro-content h2 { font-size: 32px; margin-bottom: 20px; font-weight: 700; }
+        .features { list-style: none; margin-top: 20px; }
+        .features li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .features li::before { content: "✓"; color: var(--accent); font-weight: 900; }
+
+        /* --- SUBJECT GRID --- */
+        .subjects {
+            max-width: 1200px; margin: 0 auto 100px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px; padding: 0 20px;
+        }
+
+        .subject-card {
+            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--glass-border); border-radius: 45px;
+            padding: 40px; transition: all 0.4s cubic-bezier(0.15, 1, 0.3, 1);
+            box-shadow: var(--card-shadow); position: relative;
+            display: flex; flex-direction: column;
+        }
+        .subject-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .subject-tag {
+            background: var(--accent-soft); color: var(--accent);
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; width: fit-content; margin-bottom: 20px;
+        }
+        .subject-card h3 { font-size: 32px; font-weight: 800; margin-bottom: 15px; }
+        .subject-card p { color: var(--text-secondary); margin-bottom: 30px; font-size: 16px; flex-grow: 1; }
+
+        /* --- LINK BUTTONS --- */
+        .resource-links {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        .btn {
+            padding: 14px; border-radius: 18px; text-decoration: none;
+            font-size: 13px; font-weight: 600; text-align: center;
+            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary { background: var(--accent); color: white; grid-column: span 2; font-size: 16px; margin-bottom: 8px; }
+        .btn-secondary { background: var(--accent-soft); color: var(--accent); }
+        .btn:hover { opacity: 0.8; transform: scale(0.98); }
+
+        @media (max-width: 768px) {
+            .site-intro { grid-template-columns: 1fr; padding: 30px; }
+            h1 { font-size: 38px; }
+            .subjects { grid-template-columns: 1fr; }
+        }
+
+        .btn-theme {
+            background: var(--text-main); color: var(--bg-light); border: none;
+            padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav>
+        <div class="logo">ADAM<span>HUB</span></div>
+        <button class="btn-theme" onclick="toggleTheme()">Thème 🌓</button>
+    </nav>
+
+    <header>
+        <h1>Réviser avec clarté.</h1>
+        <p class="intro-text">
+            Le portail éducatif interactif conçu pour la Terminale Spécialité. 
+            Accédez à vos cours, ressources multimédias et outils d'auto-évaluation en un clic.
+        </p>
+    </header>
+
+    <!-- SECTION PRÉSENTATION DU SITE -->
+    <section class="site-intro">
+        <div class="intro-content">
+            <h2>L'expérience d'apprentissage.</h2>
+            <p>Ce site a été conçu pour transformer la révision en un processus fluide et immersif. Fini les dossiers perdus et les feuilles éparpillées.</p>
+            <ul class="features">
+                <li><b>Multi-supports</b> : Vidéos, podcasts, et fiches.</li>
+                <li><b>Interactif</b> : Quizz intégrés et schémas dynamiques.</li>
+                <li><b>Optimisé</b> : Design "Glassmorphism" pour une lecture sans fatigue.</li>
+                <li><b>Centralisé</b> : Toutes les matières au même endroit.</li>
+            </ul>
+        </div>
+        <div style="background: var(--accent-soft); height: 100%; border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 100px;">
+            🎓
+        </div>
+    </section>
+
+    <!-- GRILLE DES MATIÈRES -->
+    <div class="subjects">
+        <!-- PHYSIQUE-CHIMIE -->
+        <div class="subject-card">
+            <div class="subject-tag">Physique-Chimie</div>
+            <h3>Transferts Thermiques</h3>
+            <p>Étude du premier principe de la thermodynamique, du modèle du gaz parfait et du bilan radiatif terrestre.</p>
+            <div class="resource-links">
+                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.html" class="btn btn-primary">🚀 Ouvrir le cours interactif</a>
+                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF Cours</a>
+                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Présentation</a>
+                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
+                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Infographie</a>
+            </div>
+        </div>
+
+        <!-- MATHÉMATIQUES -->
+        <div class="subject-card">
+            <div class="subject-tag">Mathématiques</div>
+            <h3>Logarithme Népérien</h3>
+            <p>Maîtrise de la fonction ln : propriétés algébriques, limites, croissances comparées et dérivées de fonctions composées.</p>
+            <div class="resource-links">
+                <a href="Chapitre 8 copie/Logarithme_neperien.html" class="btn btn-primary">🚀 Ouvrir le cours interactif</a>
+                <a href="Chapitre 8 copie/Logarithme_neperien_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF Cours</a>
+                <a href="Chapitre 8 copie/Logarithme_neperien_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Présentation</a>
+                <a href="Chapitre 8 copie/Logarithme_neperien_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
+                <a href="Chapitre 8 copie/Logarithme_neperien_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Infographie</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+    </script>
+</body>
+</html>
