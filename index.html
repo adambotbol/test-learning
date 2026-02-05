@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'HUB D'ADAM | Portail de Révision</title>
+    <title>ADAM HUB | Portail de Révision</title>
     <style>
         :root {
             /* Palette Apple Liquid Glass */
@@ -62,6 +62,12 @@
         .logo { font-weight: 800; font-size: 24px; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
 
+        .btn-theme {
+            background: var(--text-main); color: var(--bg-light); border: none;
+            padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;
+            transition: 0.3s;
+        }
+
         /* --- HERO SECTION --- */
         header {
             max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center;
@@ -72,64 +78,53 @@
             font-weight: 400; line-height: 1.5;
         }
 
-        /* --- PRESENTATION SECTION --- */
-        .site-intro {
-            max-width: 1000px; margin: 0 auto 80px;
+        /* --- SUBJECT SECTIONS --- */
+        .container { max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
+        
+        .subject-header {
+            margin: 60px 0 30px;
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .subject-header::after {
+            content: ""; height: 1px; flex-grow: 1; background: var(--glass-border);
+        }
+
+        .lecon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .lecon-card {
             background: var(--glass-bg); backdrop-filter: blur(var(--blur));
             border: 1px solid var(--glass-border); border-radius: 40px;
-            padding: 50px; box-shadow: var(--card-shadow);
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-        }
-        .intro-content h2 { font-size: 32px; margin-bottom: 20px; font-weight: 700; }
-        .features { list-style: none; margin-top: 20px; }
-        .features li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
-        .features li::before { content: "✓"; color: var(--accent); font-weight: 900; }
-
-        /* --- SUBJECT GRID --- */
-        .subjects {
-            max-width: 1200px; margin: 0 auto 100px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px; padding: 0 20px;
-        }
-
-        .subject-card {
-            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border); border-radius: 45px;
             padding: 40px; transition: all 0.4s cubic-bezier(0.15, 1, 0.3, 1);
-            box-shadow: var(--card-shadow); position: relative;
+            box-shadow: var(--card-shadow);
             display: flex; flex-direction: column;
         }
-        .subject-card:hover { transform: translateY(-10px); border-color: var(--accent); }
-        .subject-tag {
-            background: var(--accent-soft); color: var(--accent);
-            padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
-            text-transform: uppercase; width: fit-content; margin-bottom: 20px;
-        }
-        .subject-card h3 { font-size: 32px; font-weight: 800; margin-bottom: 15px; }
-        .subject-card p { color: var(--text-secondary); margin-bottom: 30px; font-size: 16px; flex-grow: 1; }
+        .lecon-card:hover { transform: translateY(-10px); border-color: var(--accent); }
 
-        /* --- LINK BUTTONS --- */
-        .resource-links {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-        }
+        .lecon-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+        .lecon-card p { color: var(--text-secondary); margin-bottom: 25px; font-size: 16px; flex-grow: 1; }
+
+        /* --- BUTTONS --- */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn {
-            padding: 14px; border-radius: 18px; text-decoration: none;
+            padding: 12px; border-radius: 15px; text-decoration: none;
             font-size: 13px; font-weight: 600; text-align: center;
             transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-primary { background: var(--accent); color: white; grid-column: span 2; font-size: 16px; margin-bottom: 8px; }
+        .btn-primary { background: var(--accent); color: white; grid-column: span 2; margin-bottom: 5px; font-size: 15px; }
         .btn-secondary { background: var(--accent-soft); color: var(--accent); }
         .btn:hover { opacity: 0.8; transform: scale(0.98); }
 
         @media (max-width: 768px) {
-            .site-intro { grid-template-columns: 1fr; padding: 30px; }
             h1 { font-size: 38px; }
-            .subjects { grid-template-columns: 1fr; }
-        }
-
-        .btn-theme {
-            background: var(--text-main); color: var(--bg-light); border: none;
-            padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;
+            .lecon-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -146,59 +141,65 @@
     </nav>
 
     <header>
-        <h1>Réviser avec clarté.</h1>
+        <h1>Le savoir, avec clarté.</h1>
         <p class="intro-text">
-            Le portail éducatif interactif conçu pour la Terminale Spécialité. 
-            Accédez à vos cours, ressources multimédias et outils d'auto-évaluation en un clic.
+            Bienvenue sur votre portail de révision intelligent. Retrouvez ici tous les chapitres de Spécialité, enrichis de supports multimédias interactifs.
         </p>
     </header>
 
-    <!-- SECTION PRÉSENTATION DU SITE -->
-    <section class="site-intro">
-        <div class="intro-content">
-            <h2>L'expérience d'apprentissage.</h2>
-            <p>Ce site a été conçu pour transformer la révision en un processus fluide et immersif. Fini les dossiers perdus et les feuilles éparpillées.</p>
-            <ul class="features">
-                <li><b>Multi-supports</b> : Vidéos, podcasts, et fiches.</li>
-                <li><b>Interactif</b> : Quizz intégrés et schémas dynamiques.</li>
-                <li><b>Optimisé</b> : Design "Glassmorphism" pour une lecture sans fatigue.</li>
-                <li><b>Centralisé</b> : Toutes les matières au même endroit.</li>
-            </ul>
-        </div>
-        <div style="background: var(--accent-soft); height: 100%; border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 100px;">
-            🎓
-        </div>
-    </section>
-
-    <!-- GRILLE DES MATIÈRES -->
-    <div class="subjects">
-        <!-- PHYSIQUE-CHIMIE -->
-        <div class="subject-card">
-            <div class="subject-tag">Physique-Chimie</div>
-            <h3>Transferts Thermiques</h3>
-            <p>Étude du premier principe de la thermodynamique, du modèle du gaz parfait et du bilan radiatif terrestre.</p>
-            <div class="resource-links">
-                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.html" class="btn btn-primary">🚀 Ouvrir le cours interactif</a>
-                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF Cours</a>
-                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Présentation</a>
-                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Infographie</a>
+    <div class="container">
+        
+        <!-- SECTION MATHÉMATIQUES -->
+        <div class="subject-header">📐 Mathématiques</div>
+        <div class="lecon-grid">
+            
+            <!-- Chapitre 8 : LN -->
+            <div class="lecon-card">
+                <h3>Logarithme Népérien</h3>
+                <p>Propriétés algébriques, étude de fonction, limites et croissances comparées.</p>
+                <div class="btn-group">
+                    <a href="Chapitre 8 copie/Logarithme_neperien.html" class="btn btn-primary">🚀 Cours Interactif</a>
+                    <a href="Chapitre 8 copie/Logarithme_neperien_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
+                    <a href="Chapitre 8 copie/Logarithme_neperien_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
+                    <a href="Chapitre 8 copie/Logarithme_neperien_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
+                    <a href="Chapitre 8 copie/Logarithme_neperien_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
+                </div>
             </div>
+
+            <!-- Chapitre 9 : Produit Scalaire -->
+            <div class="lecon-card">
+                <h3>Produit Scalaire Espace</h3>
+                <p>Orthogonalité, équations cartésiennes de plans et calculs de distances dans l'espace.</p>
+                <div class="btn-group">
+                    <a href="Chapitre 9 copie/Produits_scalaires.html" class="btn btn-primary">🚀 Cours Interactif</a>
+                    <a href="Chapitre 9 copie/Produits_scalaires_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
+                    <a href="Chapitre 9 copie/produits_scalaires_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
+                    <a href="Chapitre 9 copie/Produits_scalaires_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
+                    <a href="Chapitre 9 copie/Produits_scalaires_infographie_paysage.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
+                </div>
+            </div>
+
         </div>
 
-        <!-- MATHÉMATIQUES -->
-        <div class="subject-card">
-            <div class="subject-tag">Mathématiques</div>
-            <h3>Logarithme Népérien</h3>
-            <p>Maîtrise de la fonction ln : propriétés algébriques, limites, croissances comparées et dérivées de fonctions composées.</p>
-            <div class="resource-links">
-                <a href="Chapitre 8 copie/Logarithme_neperien.html" class="btn btn-primary">🚀 Ouvrir le cours interactif</a>
-                <a href="Chapitre 8 copie/Logarithme_neperien_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF Cours</a>
-                <a href="Chapitre 8 copie/Logarithme_neperien_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Présentation</a>
-                <a href="Chapitre 8 copie/Logarithme_neperien_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                <a href="Chapitre 8 copie/Logarithme_neperien_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Infographie</a>
+        <!-- SECTION PHYSIQUE-CHIMIE -->
+        <div class="subject-header">🧪 Physique-Chimie</div>
+        <div class="lecon-grid">
+            
+            <!-- Chapitre 5 : Thermodynamique -->
+            <div class="lecon-card">
+                <h3>Transferts Thermiques</h3>
+                <p>Premier principe de la thermodynamique, gaz parfaits et bilan radiatif terrestre.</p>
+                <div class="btn-group">
+                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.html" class="btn btn-primary">🚀 Cours Interactif</a>
+                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
+                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
+                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
+                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
+                </div>
             </div>
+
         </div>
+
     </div>
 
     <script>
