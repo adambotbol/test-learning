@@ -1,0 +1,60 @@
+Quel est le rendement typique d'une conversion directe par une hélice ou une turbine couplée à un alternateur ?,$> 90 \%$
+Citez trois exemples de sources d'énergie utilisant une conversion directe mécanique.,"Les éoliennes, les hydroliennes et les barrages."
+"Dans un diagramme de chaîne de transformation énergétique, que représentent les rectangles ?",Les réservoirs d'énergie.
+"Dans un diagramme de chaîne de transformation énergétique, quel symbole représente les convertisseurs ?",Les ovales.
+"Dans une chaîne d'énergie, que symbolisent les flèches entre les différents éléments ?",Les transferts d'énergie.
+Quelle forme d'énergie est transférée entre l'hélice éolienne et l'alternateur ?,L'énergie cinétique de rotation ($E_c$ rotation).
+Pourquoi l'environnement est-il représenté en bas d'une chaîne énergétique avec des flèches $Q$ ?,Pour indiquer les pertes d'énergie thermique dues aux frottements ou à l'effet Joule.
+Quelles sources d'énergie utilisent la conversion indirecte à partir d'énergie thermique ?,"Les centrales nucléaires, solaires thermiques et géothermiques."
+Quel est le rôle du fluide caloporteur dans une centrale thermique ?,Transporter l'énergie thermique de la source primaire pour vaporiser de l'eau.
+Quelle est la source d'énergie primaire fissile mentionnée pour les centrales nucléaires ?,L'uranium 235.
+En quelle forme d'énergie la turbine convertit-elle l'énergie cinétique de la vapeur ?,En énergie mécanique (énergie cinétique de rotation).
+Quels sont les cinq éléments principaux d'une centrale thermique ?,"Le réservoir, la chaudière, la pompe, la turbine et l'alternateur."
+Quel dispositif est utilisé pour refroidir le système dans une centrale thermique ?,Les tours aéro-réfrigérantes.
+Comment appelle-t-on l'ensemble formé par la turbine et l'alternateur ?,Le couple turbo-alternateur.
+Quelle est la vitesse de vent minimale nécessaire pour faire fonctionner une éolienne ?,$10 \text{ km/h}$
+À partir de quelle vitesse de vent une éolienne est-elle arrêtée par sécurité ?,$90 \text{ km/h}$
+Comment les éoliennes captent-elles un maximum de vent au niveau de la nacelle ?,La nacelle se trouve face au vent et les pales pivotent.
+Quel composant à l'intérieur de la nacelle d'une éolienne permet d'augmenter la vitesse de rotation ?,Un multiplicateur.
+Pourquoi augmente-t-on la tension électrique lors du transport du courant ?,Pour diminuer l'effet Joule et réduire les pertes d'énergie.
+Quel appareil permet de modifier la tension électrique pour le transport sur le réseau ?,Le transformateur.
+Quelle est la différence fondamentale entre une pile et un accumulateur ?,"L'accumulateur est rechargeable, contrairement à la pile."
+Quelle transformation d'énergie s'opère dans un générateur électrochimique ?,Conversion de l'énergie chimique (réactions redox) en énergie électrique.
+Quel type de tension est fourni par les batteries et les piles communes ?,Une tension continue.
+Définition : Oxydation,Réaction chimique au cours de laquelle un réducteur perd un ou plusieurs électrons.
+Définition : Réduction,Réaction chimique au cours de laquelle un oxydant gagne un ou plusieurs électrons.
+Équation : Demi-équation électronique d'une oxydation,$\text{Red} \rightarrow \text{Ox} + n e^-$
+Équation : Demi-équation électronique d'une réduction,$\text{Ox} + n e^- \rightarrow \text{Red}$
+Quels sont les deux principaux problèmes liés à l'usage des piles ?,L'usure de la pile et les risques de courts-circuits lors des cycles de charge.
+Quel type d'énergie est directement converti par les cellules photovoltaïques ?,L'énergie radiative véhiculée par les ondes électromagnétiques (visibles et autres).
+Quel est le rendement moyen d'une cellule photovoltaïque ?,$< 30 \%$
+Quelle est la production annuelle moyenne de la centrale de Cestas (France) ?,$350 \text{ GWh}$ par an.
+À combien de foyers correspond la consommation couverte par la centrale solaire de Cestas ?,"$50\,000$ foyers."
+Quels sont les réactifs utilisés dans une pile à hydrogène ($H_2$) ?,Le dihydrogène (réservoir pressurisé) et le dioxygène de l'air.
+Quel est le seul rejet produit par une pile à hydrogène ?,De l'eau ($H_2O$).
+Comparez l'énergie libérée par $1 \text{ kg}$ de dihydrogène par rapport à $1 \text{ kg}$ d'essence.,Le dihydrogène libère $4$ fois plus d'énergie.
+Équation : Électrolyse de l'eau pour produire du dihydrogène,$2H_2O(l) + E_{el} \rightarrow 2H_2(g) + O_2(g)$
+Quel est le rendement global du cycle de l'hydrogène ?,$< 50 \%$
+Citez deux exemples d'impacts écologiques en amont de la production d'électricité.,L'extraction des minerais et la transformation des matières premières pour la construction.
+Citez deux types de déchets produits en aval de la production d'électricité.,"Déchets chimiques polluants (batteries, PV) et déchets radioactifs (nucléaire)."
+Quel est l'enjeu majeur concernant les déchets radioactifs des centrales nucléaires ?,Le confinement pour éviter qu'ils ne se répandent dans l'environnement.
+Pourquoi l'énergie solaire et éolienne nécessite-t-elle l'occupation de surfaces importantes ?,Car ce sont des sources d'énergie diffuses.
+Quel impact environnemental majeur est lié à la construction de grands barrages ?,La destruction d'écosystèmes par l'ennoyage de vallées.
+Quelles nuisances spécifiques sont attribuées aux éoliennes ?,Pollutions visuelle et sonore.
+Pourquoi est-il nécessaire de stocker l'énergie électrique ?,"Pour pallier l'intermittence des sources non pilotables (éolien, solaire) et ajuster production/consommation."
+En quoi le stockage d'énergie aide-t-il à diminuer la production de $CO_2$ ?,Il limite le recours aux centrales thermiques d'appoint lors des pics de demande.
+Quel est le rendement d'un stockage par accumulateur chimique ?,$80 \%$
+Quel est l'inconvénient majeur des accumulateurs pour le stockage à grande échelle ?,Leur coût important et leur durée de vie limitée.
+Que signifie l'acronyme STEP dans le cadre du stockage de l'énergie ?,Station de Transfert d'Énergie par Pompage.
+Comment fonctionne une STEP pendant les heures creuses ?,L'eau est pompée vers un lac de retenue supérieur en utilisant l'excédent d'électricité.
+Comment une STEP produit-elle de l'électricité lors d'une forte demande ?,L'eau redescend du lac supérieur pour faire tourner les turbo-alternateurs.
+Quel est le rendement d'une STEP ?,$80 \%$
+Quel dispositif permet de délivrer de fortes puissances électriques sur quelques secondes ?,Le super-condensateur.
+Quel est le rendement d'un super-condensateur ?,$90 \%$
+Quelle est la durée typique d'utilisation d'un super-condensateur après une recharge de $45 \text{ s}$ ?,$2$ à $3$ minutes.
+Quel mode de stockage est majoritaire pour la gestion des centrales électriques ?,Les STEP (Stations de Transfert d'Énergie par Pompage).
+"Dans une pile à hydrogène, d'où provient généralement le dihydrogène utilisé ?",De l'électrolyse de l'eau ou de la synthèse chimique.
+Quel est le rôle de la pompe dans le schéma d'une centrale thermique ?,Faire circuler la vapeur d'eau (ou le fluide) dans le circuit.
+Pourquoi l'éolien offshore est-il parfois privilégié par rapport à l'éolien sur terre ?,Pour éviter les critiques liées à l'occupation des terres et profiter de vents plus réguliers.
+"Qu'est-ce qu'une source d'énergie ""non pilotable"" ?",Une source dont on ne peut pas contrôler la production selon la demande (ex: météo).
+"Quel type de stockage est privilégié pour les ""petites quantités d'énergie nomades"" ?",Les accumulateurs chimiques (batteries).
