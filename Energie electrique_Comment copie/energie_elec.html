@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENERGY HUB - Terminale Enseignement Scientifique</title>
+    <!-- MathJax pour les formules physiques -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            /* Palette Apple Liquid Glass */
+            --bg-light: #f5f5f7;
+            --bg-dark: #000000;
+            --accent: #0071e3;
+            --accent-soft: rgba(0, 113, 227, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-main: #1d1d1f;
+            --text-secondary: #6e6e73;
+            
+            /* Couleurs Sémantiques Pédagogiques */
+            --color-def: #0071e3;   /* Bleu : Lois et Principes */
+            --color-var: #af52de;   /* Violet : Grandeurs Physiques */
+            --color-unit: #34c759;  /* Vert : Rendement et Atouts */
+            --color-trap: #ff9500;  /* Orange : Points de vigilance */
+            --color-danger: #ff3b30;/* Rouge : Pertes et Risques */
+            
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --blur: 30px;
+        }
+
+        [data-theme="dark"] {
+            --bg-light: #000000;
+            --glass-bg: rgba(28, 28, 30, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f5f5f7;
+            --text-secondary: #a1a1a6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- ARRIÈRE-PLAN ANIMÉ --- */
+        .bg-blobs {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; filter: blur(100px);
+        }
+        .blob {
+            position: absolute; border-radius: 50%; opacity: 0.35;
+            animation: move 25s infinite alternate;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--accent); top: -150px; right: -150px; }
+        .blob-2 { width: 500px; height: 500px; background: #5e5ce6; bottom: -50px; left: -150px; }
+
+        @keyframes move { from { transform: translate(0, 0); } to { transform: translate(80px, 40px); } }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            height: 80px; background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur)) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
+        }
+        .logo { font-weight: 800; font-size: 24px; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+        .nav-actions { display: flex; gap: 12px; align-items: center; }
+
+        /* --- BARRE DE RECHERCHE --- */
+        .search-input {
+            background: var(--bg-light); border: 1px solid var(--glass-border);
+            padding: 10px 20px; border-radius: 20px; font-size: 14px;
+            color: var(--text-main); width: 220px; transition: 0.3s; outline: none;
+        }
+        .search-input:focus { border-color: var(--accent); width: 260px; }
+
+        /* --- TOOLBAR BOUTONS --- */
+        .toolbar {
+            max-width: 1200px; margin: 30px auto; padding: 0 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .tool-btn {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 15px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: var(--text-main); box-shadow: var(--card-shadow);
+        }
+        .tool-btn:hover { transform: translateY(-4px); border-color: var(--accent); color: var(--accent); }
+
+        /* --- DASHBOARD --- */
+        .dashboard {
+            max-width: 1200px; margin: 40px auto 100px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px; padding: 0 20px;
+            transition: all 0.6s ease;
+        }
+        .dashboard.hidden { transform: scale(0.95); opacity: 0; pointer-events: none; position: absolute; }
+
+        .module-tile {
+            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--glass-border); border-radius: 35px;
+            padding: 40px; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.15, 1, 0.3, 1);
+            box-shadow: var(--card-shadow); display: flex; flex-direction: column; min-height: 280px;
+        }
+        .module-tile:hover { transform: translateY(-12px); border-color: var(--accent); }
+        .module-tile .icon { font-size: 45px; margin-bottom: 25px; }
+        .module-tile h3 { font-size: 26px; margin-bottom: 15px; font-weight: 800; }
+
+        /* --- PAGES DE CONTENU --- */
+        .content-page {
+            position: fixed; top: 80px; left: 0; width: 100%; height: calc(100vh - 80px);
+            background: var(--bg-light); z-index: 500; overflow-y: auto;
+            padding: 60px 20px; display: none; opacity: 0;
+            transform: translateY(40px); transition: all 0.7s cubic-bezier(0.15, 1, 0.3, 1);
+        }
+        .content-page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        .page-container {
+            max-width: 1100px; margin: 0 auto 150px;
+            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--glass-border); border-radius: 45px;
+            padding: 60px; box-shadow: var(--card-shadow);
+        }
+
+        .back-btn {
+            display: inline-flex; align-items: center; color: var(--accent);
+            font-weight: 800; margin-bottom: 50px; cursor: pointer; transition: 0.3s;
+            background: var(--accent-soft); padding: 12px 24px; border-radius: 16px;
+        }
+        .back-btn:hover { transform: translateX(-10px); background: var(--accent); color: white; }
+
+        /* --- VISIONNEUSES PAGE PAR PAGE --- */
+        .viewer-container { width: 100%; margin: 20px 0; display: flex; flex-direction: column; align-items: center; }
+        .viewer-frame-container {
+            width: 100%; border-radius: 30px; overflow: hidden;
+            background: #fff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow);
+        }
+        .portrait { max-width: 650px; aspect-ratio: 1/1.41; height: 85vh !important; }
+        .landscape { max-width: 950px; aspect-ratio: 16/9; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .viewer-controls {
+            display: flex; justify-content: center; align-items: center; gap: 20px;
+            margin-top: 30px; background: var(--glass-bg); padding: 15px 30px;
+            border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+        }
+        .page-info { font-weight: 700; color: var(--accent); font-size: 18px; min-width: 100px; text-align: center; }
+
+        /* --- STYLES TEXTE --- */
+        h1 { font-size: 48px; font-weight: 900; margin-bottom: 40px; letter-spacing: -2px; line-height: 1.1; }
+        h2 { color: var(--color-def); margin-top: 50px; font-size: 32px; border-left: 6px solid var(--accent); padding-left: 20px; }
+        
+        .c-def { color: var(--color-def); font-weight: 700; }
+        .c-var { color: var(--color-var); font-weight: 700; }
+        .c-unit { color: var(--color-unit); font-weight: 600; font-family: monospace; }
+        .c-trap { color: var(--color-trap); font-weight: 800; }
+        .c-danger { color: var(--color-danger); font-weight: 800; }
+
+        .formula-card {
+            background: var(--accent-soft); border-radius: 30px;
+            padding: 40px; margin: 40px 0; text-align: center;
+            border: 1px solid rgba(0, 113, 227, 0.1);
+        }
+        .formula-math { font-size: 1.8em; display: block; color: var(--text-main); margin-bottom: 10px; }
+
+        /* --- QUIZ --- */
+        .card-stack { perspective: 1000px; height: 350px; cursor: pointer; max-width: 600px; margin: 0 auto; }
+        .card { width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; position: relative; }
+        .card.flipped { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; align-items: center; justify-content: center; padding: 40px;
+            border-radius: 35px; text-align: center; font-size: 22px; font-weight: 700;
+        }
+        .card-front { background: var(--glass-bg); border: 2px solid var(--accent); color: var(--text-main); }
+        .card-back { background: var(--accent); color: white; transform: rotateY(180deg); }
+
+        .btn-pill { background: var(--accent); color: white; border: none; padding: 12px 28px; border-radius: 20px; font-weight: 700; cursor: pointer; }
+
+        #progress { position: fixed; top: 80px; left: 0; height: 5px; background: var(--accent); width: 0%; z-index: 1001; }
+    </style>
+</head>
+<body>
+
+    <div id="progress"></div>
+    <div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
+
+    <nav>
+        <div class="logo">ENERGY<span>HUB</span></div>
+        <div class="nav-actions">
+            <input type="text" id="searchInput" class="search-input" placeholder="Chercher un module...">
+            <button class="tool-btn" onclick="toggleTheme()">🌓 Thème</button>
+            <button id="revBtn" class="tool-btn" onclick="toggleRevisionMode()">👁️ Révision</button>
+        </div>
+    </nav>
+
+    <!-- TOOLBAR MULTIMÉDIA -->
+    <div class="toolbar" id="quickAccess">
+        <button class="tool-btn" onclick="initViewer('pdf', 7)">📄 PDF du cours</button>
+        <button class="tool-btn" onclick="openPage('p-video')">🎬 Vidéo</button>
+        <button class="tool-btn" onclick="openPage('p-audio')">🎧 Podcast</button>
+        <button class="tool-btn" onclick="openPage('p-quiz')">🧩 Quiz Flash</button>
+        <button class="tool-btn" onclick="openPage('p-info')">🖼️ Infographie</button>
+        <button class="tool-btn" onclick="initViewer('pres', 16)">📊 Présentation</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="mainDashboard">
+        <div class="module-tile" onclick="openPage('p1')">
+            <div class="icon">🧲</div>
+            <h3>1. Induction & Maxwell</h3>
+            <p>De l'expérience d'Ørsted à la synthèse de <span class="c-def">Maxwell</span>. Comment le mouvement crée le courant.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('p2')">
+            <div class="icon">⚙️</div>
+            <h3>2. Dynamo vs Alternateur</h3>
+            <p>La révolution de <span class="c-var">Tesla</span>. Courant continu (DC) contre alternatif (AC). Rendement <span class="c-unit">> 90%</span>.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('p3')">
+            <div class="icon">📡</div>
+            <h3>3. Transport du courant</h3>
+            <p>L'intérêt de la tension alternative pour le transport <span class="c-unit">Haute Tension</span> sans trop de pertes.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('p4')">
+            <div class="icon">☀️</div>
+            <h3>4. Effet Photovoltaïque</h3>
+            <p>Conversion directe de la lumière. Transition de la bande de <span class="c-def">valence</span> vers la <span class="c-def">conduction</span>.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('p5')">
+            <div class="icon">💎</div>
+            <h3>5. Silicium et Dopage</h3>
+            <p>Pourquoi le Silicium ? Création de la <span class="c-var">Jonction PN</span> par ajout de Phosphore ou de Bore.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('p6')">
+            <div class="icon">📈</div>
+            <h3>6. Puissance & Optimisation</h3>
+            <p>Caractéristique \(I=f(U)\) et recherche du point de <span class="c-unit">Puissance Maximale</span>.</p>
+        </div>
+    </div>
+
+    <!-- VISIONNEUSE DYNAMIQUE -->
+    <div id="p-viewer" class="content-page">
+        <div class="page-container" style="max-width:1100px;">
+            <div class="back-btn" onclick="closePage()">← Retour au menu</div>
+            <h1 id="viewerTitle">Document</h1>
+            <div class="viewer-container">
+                <div id="viewerFrameContainer" class="viewer-frame-container portrait">
+                    <iframe id="viewerFrame" src=""></iframe>
+                </div>
+                <div class="viewer-controls">
+                    <button class="tool-btn" onclick="changePage(-1)">◀ Précédent</button>
+                    <span class="page-info" id="pageDisplay">Page 1 / --</span>
+                    <button class="tool-btn" onclick="changePage(1)">Suivant ▶</button>
+                    <button class="tool-btn" id="fullScreenBtn" style="background:var(--accent-soft); color:var(--accent);">🔳 Grand Écran</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGES DE COURS -->
+    <div id="p1" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>1. Induction Électromagnétique</h1>
+            <p>Le principe fondamental : un champ magnétique variable crée une tension dans un conducteur.</p>
+            <div class="formula-card">
+                <p><span class="c-var">Loi de Faraday (1831) :</span> Le mouvement d'un aimant près d'une bobine induit un courant.</p>
+                <span class="formula-math">\( \text{rot } \vec{E} = - \frac{\partial \vec{B}}{\partial t} \)</span>
+            </div>
+            <h2>Inducteur vs Induit</h2>
+            <p>🔹 <span class="c-def">Inducteur :</span> La source du champ magnétique (Aimant/Électroaimant).</p>
+            <p>🔹 <span class="c-def">Induit :</span> Le circuit conducteur où l'électricité naît (Bobinages).</p>
+        </div>
+    </div>
+
+    <div id="p2" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>2. Dynamo et Alternateur</h1>
+            <p>L'alternateur est la machine dominante pour produire du courant alternatif (AC).</p>
+            <div class="formula-card">
+                <p>Rendement \(\eta\) : Rapport entre énergie utile et énergie fournie.</p>
+                <span class="formula-math">\( \eta = \frac{E_{élec}}{E_{méca}} > 90\% \)</span>
+            </div>
+            <h2>Composants</h2>
+            <p>⚙️ <span class="c-var">Rotor :</span> L'inducteur qui tourne au centre.</p>
+            <p>⚙️ <span class="c-var">Stator :</span> L'induit constitué de bobines fixes autour.</p>
+        </div>
+    </div>
+
+    <div id="p3" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>3. Transport et Champ Magnétique</h1>
+            <p>Pour limiter l'effet Joule (\(P = R \cdot I^2\)), on transporte l'électricité à <span class="c-unit">Haute Tension</span>.</p>
+            <div class="formula-card">
+                <p>Champ magnétique d'un solénoïde :</p>
+                <span class="formula-math">\( B = \mu_0 \cdot n \cdot I \)</span>
+                <p>\( n = N/L \) (Nombre de spires par mètre)</p>
+            </div>
+            <p><span class="c-trap">Guerre des courants :</span> Tesla (Alternatif) a gagné contre Edison (Continu) car l'alternatif est facilement transformable.</p>
+        </div>
+    </div>
+
+    <div id="p4" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>4. Effet Photovoltaïque</h1>
+            <p>Conversion directe de la lumière en électricité via des semi-conducteurs comme le <span class="c-var">Silicium</span>.</p>
+            <div class="formula-card">
+                <p>Un <span class="c-def">Photon</span> apporte l'énergie nécessaire (\(Gap\)) pour libérer un électron.</p>
+                <p>Passage : Bande de Valence \(\to\) Bande de Conduction.</p>
+            </div>
+            <p><span class="c-trap">Contrainte :</span> Le rendement reste relativement faible (< 30%).</p>
+        </div>
+    </div>
+
+    <div id="p5" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>5. Dopage du Silicium</h1>
+            <p>Le dopage permet de créer une <span class="c-unit">Jonction PN</span> pour diriger le flux d'électrons.</p>
+            <div class="formula-card">
+                <p>🟢 <span class="c-var">Dopage N (Négatif) :</span> Ajout de Phosphore (\(Z=15\)) \(\to\) Excès d'électrons.</p>
+                <p>🔵 <span class="c-var">Dopage P (Positif) :</span> Ajout de Bore (\(Z=5\)) \(\to\) Manque d'électrons (Trous).</p>
+            </div>
+            <p>Le Silicium (\(Z=14\)) est idéal car son absorption coïncide avec le maximum d'émission du Soleil.</p>
+        </div>
+    </div>
+
+    <div id="p6" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>6. Puissance Électrique Disponible</h1>
+            <p>La puissance d'un capteur n'est pas constante, elle dépend du point de fonctionnement.</p>
+            <div class="formula-card">
+                <span class="formula-math">\( P = U \times I \)</span>
+            </div>
+            <h2>Points remarquables</h2>
+            <p>📍 <span class="c-def">Tension à vide (\(U_0\)) :</span> Tension max quand le courant est nul.</p>
+            <p>📍 <span class="c-def">Intensité de court-circuit (\(I_{cc}\)) :</span> Courant max quand la tension est nulle.</p>
+            <p>📈 La puissance est maximale pour un couple \((U, I)\) spécifique situé au sommet de la courbe en cloche.</p>
+        </div>
+    </div>
+
+    <!-- PAGES MÉDIA -->
+    <div id="p-video" class="content-page"><div class="page-container"><div class="back-btn" onclick="closePage()">← Retour</div><h1>Vidéo de cours</h1><video controls style="width:100%; border-radius:30px;"><source src="energie_elec_video.mp4"></video></div></div>
+    <div id="p-audio" class="content-page"><div class="page-container"><div class="back-btn" onclick="closePage()">← Retour</div><h1>Podcast</h1><audio controls><source src="energie_elec_poadcast.m4a"></audio></div></div>
+    <div id="p-info" class="content-page"><div class="page-container"><div class="back-btn" onclick="closePage()">← Retour</div><h1>Infographie</h1><img src="energie_elec_infographie.png" style="width:100%; border-radius:30px;"></div></div>
+    <div id="p-quiz" class="content-page"><div class="page-container"><div class="back-btn" onclick="closePage()">← Retour</div><h1>Quiz Flash</h1><div id="quiz-root"></div><div style="text-align:center; margin-top:40px;"><button class="btn-pill" onclick="loadNextCard()">Suivant</button></div></div></div>
+
+    <script>
+        // --- LOGIQUE VISIONNEUSE ---
+        let currentMode = ""; let currentPage = 1; let maxPages = 1;
+
+        function initViewer(type, pages) {
+            currentMode = type; currentPage = 1; maxPages = pages;
+            const container = document.getElementById('viewerFrameContainer');
+            const title = document.getElementById('viewerTitle');
+            const fsBtn = document.getElementById('fullScreenBtn');
+
+            if(type === 'pdf') {
+                container.className = 'viewer-frame-container portrait';
+                title.innerText = "Support de Cours PDF";
+                fsBtn.onclick = () => window.open('energie_elec_cours.pdf', '_blank');
+            } else {
+                container.className = 'viewer-frame-container landscape';
+                title.innerText = "Présentation Interactive";
+                fsBtn.onclick = () => window.open('energie_elec_presentation.pdf', '_blank');
+            }
+            updateFrame(); openPage('p-viewer');
+        }
+
+        function changePage(delta) {
+            let next = currentPage + delta;
+            if (next >= 1 && next <= maxPages) { currentPage = next; updateFrame(); }
+        }
+
+        function updateFrame() {
+            const frame = document.getElementById('viewerFrame');
+            const display = document.getElementById('pageDisplay');
+            let folder = (currentMode === "pdf") ? "Cours" : "Presentation";
+            let prefix = (currentMode === "pdf") ? "energie_elec_cours_page" : "energie_elec_presentation_page";
+            frame.src = `${folder}/${prefix}${currentPage}.pdf#toolbar=0&navpanes=0&scrollbar=0`;
+            display.innerText = `Page ${currentPage} / ${maxPages}`;
+        }
+
+        // --- NAVIGATION ---
+        function openPage(id) {
+            document.getElementById('mainDashboard').classList.add('hidden');
+            document.getElementById('quickAccess').style.opacity = '0.3';
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(id);
+            target.style.display = 'block';
+            setTimeout(() => { target.classList.add('active'); if(window.MathJax) MathJax.typeset(); }, 50);
+            if(id === 'p-quiz') loadNextCard();
+            window.scrollTo(0, 0);
+        }
+
+        function closePage() {
+            const active = document.querySelector('.content-page.active');
+            if(active) {
+                const media = active.querySelectorAll('video, audio'); media.forEach(m => m.pause());
+                active.classList.remove('active');
+                setTimeout(() => { active.style.display = 'none'; document.getElementById('mainDashboard').classList.remove('hidden'); document.getElementById('quickAccess').style.opacity = '1'; }, 500);
+            }
+        }
+
+        // --- RECHERCHE ---
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.module-tile').forEach(tile => {
+                const text = tile.innerText.toLowerCase();
+                tile.style.display = text.includes(term) ? 'flex' : 'none';
+            });
+        });
+
+        // --- THEME & RÉVISION ---
+        function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+        let revMode = false;
+        function toggleRevisionMode() {
+            revMode = !revMode;
+            document.querySelectorAll('.formula-math').forEach(f => { 
+                f.style.filter = revMode ? 'blur(10px)' : 'none'; 
+                f.onclick = function() { this.style.filter = 'none'; }; 
+            });
+            document.getElementById('revBtn').innerText = revMode ? "Normal" : "Révision";
+        }
+
+        // --- QUIZ DATA ---
+        const quizData = [
+            {q: "Qui a découvert l'induction (1831) ?", a: "Faraday"},
+            {q: "Rendement d'un alternateur ?", a: "> 90%"},
+            {q: "Machine produisant du courant continu ?", a: "La Dynamo"},
+            {q: "Atome pour dopage N (excès d'e-) ?", a: "Phosphore (Z=15)"},
+            {q: "Unité du champ magnétique B ?", a: "Tesla (T)"}
+        ];
+        let qIdx = 0;
+        function loadNextCard() {
+            const root = document.getElementById('quiz-root');
+            const data = quizData[qIdx % quizData.length];
+            root.innerHTML = `<div class="card-stack" onclick="this.querySelector('.card').classList.toggle('flipped')"><div class="card"><div class="card-front">${data.q}</div><div class="card-back">${data.a}</div></div></div>`;
+            qIdx++;
+        }
+
+        window.onscroll = () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("progress").style.width = (winScroll / height) * 100 + "%";
+        };
+    </script>
+</body>
+</html>

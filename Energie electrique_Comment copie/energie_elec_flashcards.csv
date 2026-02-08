@@ -1,0 +1,51 @@
+Quelle est l'observation principale de l'expérience de Gerstedt (1820) ?,Un fil conducteur parcouru par un courant dévie l'aiguille aimantée d'une boussole.
+"Selon Ampère, quelle forme ont les « lignes de champ magnétique » autour d'un fil conducteur ?",Des cercles centrés sur le fil.
+Quel physicien a découvert l'induction électromagnétique en 1831 ?,Faraday.
+En quoi consiste l'inversion de l'expérience de Gerstedt réalisée par Faraday ?,Le mouvement d'un aimant à proximité d'un conducteur génère une tension électrique.
+"Dans le phénomène d'induction, qu'appelle-t-on l'« inducteur » ?",L'élément qui crée le champ magnétique (aimant droit ou bobine conductrice).
+"Dans le phénomène d'induction, qu'appelle-t-on l'« induit » ?",Le conducteur dans lequel la tension apparaît.
+Quelle condition sur le champ magnétique est nécessaire pour qu'une tension apparaisse dans un conducteur ?,Le champ magnétique doit être variable.
+Quelle est la conséquence directe de la tension induite dans un conducteur ?,Elle est à l'origine d'un courant induit parcourant le conducteur.
+Quels sont les trois critères nécessaires pour produire de l'énergie par induction ?,"Un induit, un inducteur, et un champ magnétique variable."
+En quelle année Maxwell a-t-il formalisé l'ensemble des phénomènes électromagnétiques ?,1864.
+Quels domaines de la physique la théorie de Maxwell rassemble-t-elle ?,"L'optique, la radio, l'électricité et le magnétisme."
+Quelle est la formule de l'équation de Maxwell-Gauss ?,$\text{div } \vec{E} = \frac{\rho}{\epsilon_0}$
+Quelle est la formule de l'équation de Maxwell-Faraday ?,$\text{rot } \vec{E} = - \frac{\partial \vec{B}}{\partial t}$
+Quelle est la formule de l'équation de Maxwell-Ampère ?,$\text{rot } \vec{B} = \mu_0 (\vec{j} + \epsilon_0 \frac{\partial \vec{E}}{\partial t})$
+À quelle vitesse se déplacent les ondes électromagnétiques introduites par Maxwell ?,À la vitesse de la lumière.
+Quelle est la fonction principale d'une dynamo ?,Convertir l'énergie cinétique de rotation en énergie électrique continue.
+Citez trois inventeurs associés au développement de la dynamo entre 1866 et 1873.,"Siemens, Wilde et Gramme."
+"Dans une dynamo, quel élément permet de récupérer le courant ?",Les frotteurs.
+Comment varie la tension fournie par une dynamo ?,Elle fournit une tension continue qui n'est pas constante.
+Quel type de courant est produit par un alternateur ?,Un courant alternatif.
+Qui a développé l'alternateur en 1888 ?,Tesla.
+Quel est l'intérêt principal de la tension alternative par rapport à la tension continue ?,Elle est facilement transformable et transportable sans trop de pertes.
+"Dans un alternateur moderne, quel rôle joue le rotor ?",Il sert d'inducteur (électroaimant en rotation créant un champ variable).
+"Dans un alternateur moderne, quel rôle joue le stator ?",Il sert d'induit (ensemble de bobines fixes).
+Quelle est la formule du rendement $\eta$ d'un alternateur ?,$\eta = \frac{E_{el}}{E_m} = \frac{P_{el}}{P_m}$
+Quelle est la valeur typique du rendement d'un alternateur ?,Supérieur à $90\%$.
+"Dans la formule $B = \mu_0 n I$, que représente $n$ ?",$n = \frac{N}{L}$ (nombre de spires par unité de longueur).
+Qu'est-ce qu'une « spire » dans une bobine ?,Un enroulement.
+Pourquoi le courant continu d'Edison ne pouvait-il pas concurrencer l'alternatif de Tesla pour le transport ?,On ne peut pas transporter le courant continu loin sans perdre beaucoup d'énergie.
+Quel argument mensonger Edison a-t-il utilisé contre le courant alternatif ?,"Il l'a présenté comme dangereux, notamment via l'utilisation de la chaise électrique."
+Que font les atomes excités par une décharge électrique selon le document 3 ?,Ils absorbent des énergies cinétiques d'électrons et réémettent certaines valeurs d'énergie.
+Quel type de rayonnement les atomes émettent-ils après excitation ?,Des rayonnements électromagnétiques (visibles ou non).
+Qu'est-ce qu'un capteur photovoltaïque ?,Un générateur de courant continu convertissant l'énergie rayonnante de la lumière en énergie électrique.
+Quelle transition électronique permet de créer un courant dans un capteur photovoltaïque ?,Le passage des électrons de la bande de valence à la bande de conduction.
+Comment se comportent les bandes d'énergie dans un métal (conducteur) ?,"Les bandes se chevauchent, permettant aux électrons de se déplacer facilement."
+Pourquoi les électrons ne circulent-ils pas dans un isolant ?,Il existe un « gap » (saut) d'énergie trop important entre les bandes.
+Qu'est-ce qu'un semi-conducteur en termes de bandes d'énergie ?,Un cas intermédiaire entre conducteur et isolant.
+Quel est le nombre d'électrons de valence du Silicium ($Z=14$) ?,4 électrons de valence.
+Quel élément avec $Z=15$ est utilisé pour doper le silicium avec 5 électrons de valence ?,Le Phosphore (P).
+Quel élément avec $Z=5$ est utilisé pour le dopage avec 3 électrons de valence ?,Le Bore (B).
+Quel est l'effet physique du dopage dans un semi-conducteur ?,L'apparition d'une tension à la jonction PN qui permet aux électrons de se déplacer.
+Pourquoi le silicium est-il un matériau adapté pour les capteurs photovoltaïques ?,Son maximum d'absorption coïncide avec le maximum d'émission du Soleil.
+Dans quel domaine spectral le silicium absorbe-t-il la lumière ?,Dans le domaine visible et l'Infrarouge (IR).
+"Sur une caractéristique $I = f(U)$, comment appelle-t-on le point où $I = 0$ ?",La tension à vide (ou force électromotrice $f.e.m.$).
+"Sur une caractéristique $I = f(U)$, comment appelle-t-on le point où $U = 0$ ?",L'intensité de court-circuit.
+Quelle formule relie la puissance électrique ($P$) à la tension ($U$) et l'intensité ($I$) ?,$P = U \times I$
+Comment détermine-t-on graphiquement la puissance maximale d'un capteur ?,En identifiant le sommet de la courbe $P = f(U)$.
+Quelle tension correspond à la puissance maximale sur un graphique $P = f(U)$ ?,Celle que l'on lit sur l'axe des abscisses au niveau du pic de puissance.
+Quel est l'intérêt d'utiliser un électroaimant comme inducteur ?,On peut faire varier le champ magnétique en modifiant l'alimentation de la bobine.
+Quelle est l'unité de mesure du champ magnétique $B$ ?,Le Tesla (T).
+Pourquoi est-il facile de modifier la tension avec du courant alternatif ?,Grâce à l'utilisation de transformateurs (induit par les propriétés de l'induction).
