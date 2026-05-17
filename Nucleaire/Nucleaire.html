@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUCLEAR HUB - Révisions Terminale</title>
+    <title>NUCLEAR HUB - Terminale Enseignement Scientifique</title>
     <!-- MathJax pour les formules physiques -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
+            /* Palette Apple Liquid Glass - Thème Nucléaire */
             --bg-light: #f5f5f7;
             --bg-dark: #000000;
             --accent: #ffcc00; 
             --accent-soft: rgba(255, 204, 0, 0.15);
-            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.75);
             --glass-border: rgba(255, 255, 255, 0.4);
             --text-main: #1d1d1f;
             --text-secondary: #6e6e73;
-            --color-fission: #ff3b30; 
-            --color-mod: #0071e3;    
-            --color-safety: #34c759;  
-            --color-uranium: #af52de; 
+            
+            /* Couleurs Sémantiques */
+            --color-fission: #ff3b30;  /* Rouge : Fission / Chaleur */
+            --color-mod: #0071e3;     /* Bleu : Modérateur / Eau */
+            --color-safety: #34c759;   /* Vert : Sécurité EPR */
+            --color-uranium: #af52de;  /* Violet : Isotopes / Matière */
+            
             --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
             --blur: 30px;
         }
@@ -43,9 +47,9 @@
             transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- ARRIÈRE-PLAN ANIMÉ --- */
+        /* --- ARRIÈRE-PLAN --- */
         .bg-blobs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(100px); }
-        .blob { position: absolute; border-radius: 50%; opacity: 0.35; animation: move 25s infinite alternate; }
+        .blob { position: absolute; border-radius: 50%; opacity: 0.25; animation: move 25s infinite alternate; }
         .blob-1 { width: 600px; height: 600px; background: var(--color-mod); top: -150px; right: -150px; }
         .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -50px; left: -150px; }
         @keyframes move { from { transform: translate(0, 0); } to { transform: translate(80px, 40px); } }
@@ -60,19 +64,25 @@
         .logo { font-weight: 800; font-size: 24px; letter-spacing: -1px; }
         .logo span { color: var(--color-fission); }
 
+        .search-input {
+            background: var(--bg-light); border: 1px solid var(--glass-border);
+            padding: 10px 20px; border-radius: 20px; font-size: 14px;
+            color: var(--text-main); width: 220px; transition: 0.3s; outline: none;
+        }
+
         /* --- TOOLBAR --- */
         .toolbar {
             max-width: 1200px; margin: 30px auto; padding: 0 20px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px;
         }
         .tool-btn {
             background: var(--glass-bg); border: 1px solid var(--glass-border);
             padding: 15px; border-radius: 20px; font-size: 13px; font-weight: 600;
             cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
-            color: var(--text-main); box-shadow: var(--card-shadow);
+            box-shadow: var(--card-shadow);
         }
-        .tool-btn:hover:not(.disabled) { transform: translateY(-4px); border-color: var(--color-fission); color: var(--color-fission); }
-        .tool-btn.disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        .tool-btn:hover:not(.disabled) { transform: translateY(-4px); border-color: var(--color-fission); }
+        .tool-btn.disabled { opacity: 0.4; cursor: not-allowed; background: rgba(0,0,0,0.05); filter: grayscale(1); }
 
         /* --- DASHBOARD --- */
         .dashboard {
@@ -82,50 +92,41 @@
         .dashboard.hidden { display: none; }
 
         .module-tile {
-            background: var(--glass-bg); backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border); border-radius: 35px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 35px;
             padding: 40px; cursor: pointer; transition: 0.4s cubic-bezier(0.15, 1, 0.3, 1);
             box-shadow: var(--card-shadow); display: flex; flex-direction: column; min-height: 280px;
         }
         .module-tile:hover { transform: translateY(-12px); border-color: var(--color-uranium); }
         .module-tile .icon { font-size: 45px; margin-bottom: 25px; }
+        .module-tile h3 { font-size: 24px; margin-bottom: 15px; font-weight: 800; }
 
-        /* --- PAGES DE CONTENU --- */
+        /* --- PAGES --- */
         .content-page {
             position: fixed; top: 80px; left: 0; width: 100%; height: calc(100vh - 80px);
             background: var(--bg-light); z-index: 500; overflow-y: auto; padding: 60px 20px; display: none;
         }
-        .content-page.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .content-page.active { display: block; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .page-container {
             max-width: 1000px; margin: 0 auto 150px; background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur)); border: 1px solid var(--glass-border);
             border-radius: 45px; padding: 60px; box-shadow: var(--card-shadow);
+            border: 1px solid var(--glass-border);
         }
 
         .back-btn {
             display: inline-flex; align-items: center; color: var(--color-mod);
-            font-weight: 800; margin-bottom: 50px; cursor: pointer; transition: 0.3s;
-            background: var(--accent-soft); padding: 12px 24px; border-radius: 16px;
+            font-weight: 800; margin-bottom: 50px; cursor: pointer; background: var(--accent-soft); padding: 12px 24px; border-radius: 16px;
         }
-        .back-btn:hover { background: var(--color-mod); color: white; }
 
-        /* --- STYLES TEXTE --- */
-        h1 { font-size: 42px; font-weight: 900; margin-bottom: 30px; letter-spacing: -1.5px; }
-        h2 { color: var(--color-mod); margin-top: 40px; margin-bottom: 20px; font-size: 28px; border-left: 6px solid var(--accent); padding-left: 20px; }
         .highlight-box { background: var(--accent-soft); border-radius: 25px; padding: 30px; margin: 30px 0; border: 1px solid rgba(255, 204, 0, 0.2); }
-        .formula-math { font-size: 1.5em; font-weight: 700; display: block; margin: 20px 0; color: var(--text-main); }
+        .formula-math { font-size: 1.6em; font-weight: 700; display: block; margin: 20px 0; color: var(--text-main); }
 
         /* --- VISIONNEUSE PDF --- */
         .viewer-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .viewer-frame-container {
-            width: 100%; border-radius: 30px; overflow: hidden; background: #fff;
-            border: 1px solid var(--glass-border); height: 80vh; box-shadow: var(--card-shadow);
-        }
+        .viewer-frame-container { width: 100%; border-radius: 30px; overflow: hidden; background: #fff; height: 80vh; border: 1px solid #ddd; }
         .landscape { aspect-ratio: 16/9; height: auto !important; }
         iframe { width: 100%; height: 100%; border: none; }
-        .viewer-controls { display: flex; gap: 20px; margin-top: 30px; align-items: center; background: white; padding: 15px 30px; border-radius: 20px; }
 
         #progress { position: fixed; top: 80px; left: 0; height: 5px; background: var(--color-fission); width: 0%; z-index: 1001; }
     </style>
@@ -137,114 +138,153 @@
 
     <nav>
         <div class="logo">NUCLEAR<span>HUB</span></div>
-        <div style="display: flex; gap: 10px;">
-            <button class="tool-btn" onclick="toggleTheme()">🌓 Thème</button>
+        <div style="display: flex; gap: 15px;">
+            <input type="text" id="searchInput" class="search-input" placeholder="Chercher un concept...">
+            <button class="tool-btn" onclick="toggleTheme()">🌓</button>
             <button id="revBtn" class="tool-btn" onclick="toggleRevisionMode()">👁️ Révision</button>
         </div>
     </nav>
 
     <div class="toolbar">
-        <button class="tool-btn" onclick="initViewer('pdf', 7)">📄 Cours PDF (7p)</button>
+        <button class="tool-btn" onclick="initViewer('pdf', 7)">📄 Support Cours (7p)</button>
         <button class="tool-btn" onclick="openPage('p-video')">🎬 Vidéo Chapitre</button>
         <button class="tool-btn disabled">🎧 Podcast (Coming Soon)</button>
         <button class="tool-btn" onclick="openPage('p-info')">🖼️ Infographie</button>
         <button class="tool-btn" onclick="initViewer('pres', 10)">📊 Présentation (10p)</button>
     </div>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD AVEC LES 6 CARTES -->
     <div class="dashboard" id="mainDashboard">
         <div class="module-tile" onclick="openPage('m1')">
             <div class="icon">⚛️</div>
             <h3>1. L'ADN d'une Filière</h3>
-            <p>Composants de base : Combustible, Modérateur et Caloporteur.</p>
+            <p>Comprendre le trio technologique : <b>Combustible</b>, <b>Modérateur</b> et <b>Caloporteur</b>. La base de tout réacteur.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('m2')">
+            <div class="icon">🧱</div>
+            <h3>2. Matière & Combustible</h3>
+            <p>Du noyau d'Uranium aux assemblages de 4m. Distinguer isotopes <b>fissiles</b> et <b>fertiles</b>.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('m3')">
+            <div class="icon">🛡️</div>
+            <h3>3. Le Modérateur</h3>
+            <p>Pourquoi ralentir les neutrons ? Le passage crucial de <b>20 000 km/s</b> à <b>2 km/s</b> pour la fission.</p>
+        </div>
+        <div class="module-tile" onclick="openPage('m4')">
+            <div class="icon">🌍</div>
+            <h3>4. Filières Mondiales</h3>
+            <p>Comparatif : <b>REP</b> français, <b>Candu</b> canadien, <b>RNR</b> à neutrons rapides et RBMK.</p>
         </div>
         <div class="module-tile" onclick="openPage('m5')">
             <div class="icon">🔄</div>
-            <h3>2. Le Standard REP</h3>
-            <p>Le fonctionnement détaillé des 3 circuits de la centrale française.</p>
+            <h3>5. Le Standard REP</h3>
+            <p>Le fonctionnement détaillé des <b>3 circuits étanches</b>. Transformer la chaleur en électricité.</p>
         </div>
         <div class="module-tile" onclick="openPage('m6')">
             <div class="icon">🚀</div>
-            <h3>3. L'Avenir : L'EPR</h3>
-            <p>Sécurité renforcée et puissance optimisée pour la nouvelle génération.</p>
+            <h3>6. L'Avenir : L'EPR</h3>
+            <p>La 3ème génération : puissance record et sécurité ultime (récupérateur de corium).</p>
         </div>
     </div>
 
-    <!-- PAGE VIDEO -->
-    <div id="p-video" class="content-page">
-        <div class="page-container">
-            <div class="back-btn" onclick="closePage()">← Retour Menu</div>
-            <h1>🎬 Vidéo de cours</h1>
-            <video controls style="width:100%; border-radius:30px; box-shadow: var(--card-shadow);">
-                <source src="Nucleaire.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la lecture de vidéos.
-            </video>
-        </div>
-    </div>
+    <!-- PAGES DE CONTENU -->
 
-    <!-- PAGE INFOGRAPHIE -->
-    <div id="p-info" class="content-page">
-        <div class="page-container">
-            <div class="back-btn" onclick="closePage()">← Retour Menu</div>
-            <h1>🖼️ Infographie de Synthèse</h1>
-            <img src="Nucleaire_infographie.png" style="width:100%; border-radius:30px; border: 1px solid #ddd;">
-        </div>
-    </div>
-
-    <!-- PAGES DE COURS (CONTENU RICHE) -->
     <div id="m1" class="content-page">
         <div class="page-container">
             <div class="back-btn" onclick="closePage()">← Retour</div>
-            <h1>1. L'ADN d'une Filière Nucléaire</h1>
-            <p>Une filière est une "recette" technologique unique. Elle est définie par trois piliers fondamentaux :</p>
-            
-            <h2>A. Le Combustible (Énergie)</h2>
-            <p>C'est la matière fissile. On utilise principalement :</p>
+            <h1>1. Définition d'une Filière</h1>
+            <p>Une filière est une famille de réacteurs utilisant la même technologie de base définie par 3 critères :</p>
             <ul>
-                <li><b>Uranium-235 :</b> Le seul isotope fissile naturel (environ 0.7% dans l'uranium naturel).</li>
-                <li><b>Plutonium-239 :</b> Isotope artificiel créé dans les réacteurs à partir de l'Uranium-238 fertile.</li>
+                <li><b>Combustible :</b> Matière fissile (Uranium enrichi, naturel ou Plutonium).</li>
+                <li><b>Modérateur :</b> Matériau qui ralentit les neutrons sans les absorber (Eau, Graphite).</li>
+                <li><b>Caloporteur :</b> Fluide qui extrait la chaleur du cœur (Eau, Gaz, Sodium).</li>
             </ul>
+        </div>
+    </div>
 
-            <h2>B. Le Modérateur (Vitesse)</h2>
-            <p>Les neutrons sont émis à 20 000 km/s. Le modérateur les ralentit à 2 km/s (neutrons thermiques) pour permettre la fission de l'U-235.</p>
+    <div id="m2" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>2. Matière et Combustible</h1>
+            <p>Le combustible nucléaire se présente sous forme de pastilles de 8,2 mm de diamètre empilées dans des crayons.</p>
+            <h2>Isotopes clés :</h2>
+            <ul>
+                <li><b>Uranium-235 :</b> Seul isotope fissile naturel (0,7% dans la nature, enrichi à 4% pour les REP).</li>
+                <li><b>Uranium-238 :</b> Isotope fertile, il se transforme en Plutonium-239 sous l'effet des neutrons.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="m3" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>3. Le Modérateur : Le frein à neutrons</h1>
             <div class="highlight-box">
-                <span class="formula-math">V_{rapide} \to \text{Modérateur} \to V_{thermique}</span>
+                <p>À leur naissance (fission), les neutrons vont à <b>20 000 km/s</b>. À cette vitesse, ils "ratent" les noyaux d'Uranium.</p>
+                <p>Le modérateur les ralentit à <b>2 km/s</b>. On dit qu'ils deviennent des <b>neutrons thermiques</b>. C'est là que la fission est la plus efficace.</p>
+                <span class="formula-math">v \approx 20\,000 \text{ km/s} \xrightarrow{\text{Modérateur}} v \approx 2 \text{ km/s}</span>
             </div>
+        </div>
+    </div>
 
-            <h2>C. Le Caloporteur (Chaleur)</h2>
-            <p>Fluide qui extrait la chaleur du cœur. Dans le REP, c'est de l'eau sous haute pression (155 bars).</p>
+    <div id="m4" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>4. Filières Mondiales</h1>
+            <p>Le parc mondial est dominé par les réacteurs à eau légère (REP et REB).</p>
+            <ul>
+                <li><b>REP (France, USA) :</b> Eau légère modératrice et caloporteur.</li>
+                <li><b>Candu (Canada) :</b> Utilise l'uranium naturel et l'eau lourde.</li>
+                <li><b>RNR (Avenir) :</b> Pas de modérateur, neutrons rapides pour "brûler" les déchets.</li>
+            </ul>
         </div>
     </div>
 
     <div id="m5" class="content-page">
         <div class="page-container">
             <div class="back-btn" onclick="closePage()">← Retour</div>
-            <h1>🔄 2. Le Standard REP</h1>
-            <p>Le Réacteur à Eau Pressurisée sépare physiquement la radioactivité de la production d'électricité :</p>
-            
+            <h1>5. Le Standard REP</h1>
+            <p>Le Réacteur à Eau Pressurisée utilise 3 circuits séparés pour confiner la radioactivité :</p>
             <div class="highlight-box">
-                <b>1. Circuit Primaire :</b> L'eau chauffe au contact du combustible (Radioactif).<br>
-                <b>2. Circuit Secondaire :</b> La chaleur du primaire fait bouillir l'eau de ce circuit (Vapeur).<br>
-                <b>3. Circuit de Refroidissement :</b> Condense la vapeur pour recommencer le cycle.
+                <b>1. Circuit Primaire :</b> Eau sous 155 bars au contact du combustible (Radioactif).<br>
+                <b>2. Circuit Secondaire :</b> L'eau s'évapore pour faire tourner la turbine (Non radioactif).<br>
+                <b>3. Circuit de Refroidissement :</b> Condense la vapeur grâce à une source externe (Mer/Fleuve).
             </div>
-            <p>Cette séparation garantit qu'aucune particule radioactive ne sort vers les turbines ou l'environnement.</p>
         </div>
     </div>
 
     <div id="m6" class="content-page">
         <div class="page-container">
             <div class="back-btn" onclick="closePage()">← Retour</div>
-            <h1>🚀 3. L'Avenir : L'EPR</h1>
-            <p>L'Evolutionary Power Reactor est la 3ème génération de réacteurs :</p>
+            <h1>6. L'EPR : La nouvelle génération</h1>
+            <p>L'EPR (European Pressurized Reactor) est une évolution du REP avec une sécurité extrême :</p>
             <ul>
-                <li><b>Puissance :</b> Plus de 1600 MWe.</li>
-                <li><b>Durable :</b> Conçu pour durer 60 ans.</li>
-                <li><b>Sécurité :</b> Double enceinte de confinement et "cendrier" (récupérateur de corium) en cas de fusion du cœur.</li>
+                <li><b>Puissance :</b> > 1600 MWe.</li>
+                <li><b>Sécurité :</b> Double enceinte de confinement et <b>récupérateur de corium</b> (pour bloquer le cœur s'il fond).</li>
+                <li><b>Durabilité :</b> Conçu pour 60 ans.</li>
             </ul>
         </div>
     </div>
 
-    <!-- VISIONNEUSE PDF DYNAMIQUE -->
+    <!-- PAGES MÉDIA -->
+    <div id="p-video" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>🎬 Vidéo de cours</h1>
+            <video controls style="width:100%; border-radius:30px; box-shadow: var(--card-shadow);">
+                <source src="Nucleaire.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div id="p-info" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>🖼️ Infographie</h1>
+            <img src="Nucleaire_infographie.png" style="width:100%; border-radius:20px;">
+        </div>
+    </div>
+
     <div id="p-viewer" class="content-page">
         <div class="page-container">
             <div class="back-btn" onclick="closePage()">← Retour</div>
@@ -265,43 +305,8 @@
     <script>
         let currentMode = ""; let currentPage = 1; let maxPages = 1;
 
-        // --- GESTION DES PDF (PAGES INDIVIDUELLES) ---
-        function initViewer(type, pages) {
-            currentMode = type; currentPage = 1; maxPages = pages;
-            const container = document.getElementById('viewerFrameContainer');
-            
-            if(type === 'pdf') {
-                container.classList.remove('landscape');
-                document.getElementById('viewerTitle').innerText = "Support de Cours PDF";
-            } else {
-                container.classList.add('landscape');
-                document.getElementById('viewerTitle').innerText = "Présentation Interactive";
-            }
-            updateFrame(); openPage('p-viewer');
-        }
-
-        function updateFrame() {
-            const frame = document.getElementById('viewerFrame');
-            const display = document.getElementById('pageDisplay');
-            
-            // Correction des noms selon ta capture d'écran
-            let folder = (currentMode === "pdf") ? "Cours" : "Presentation";
-            let prefix = (currentMode === "pdf") ? "Nucleaire_cours_page" : "Nucleaire_presentation_page";
-            
-            frame.src = `${folder}/${prefix}${currentPage}.pdf#toolbar=0&navpanes=0&scrollbar=0`;
-            display.innerText = `Page ${currentPage} / ${maxPages}`;
-        }
-
-        function changePage(delta) {
-            let next = currentPage + delta;
-            if (next >= 1 && next <= maxPages) { currentPage = next; updateFrame(); }
-        }
-
-        // --- NAVIGATION ---
         function openPage(id) {
             document.getElementById('mainDashboard').classList.add('hidden');
-            const pages = document.querySelectorAll('.content-page');
-            pages.forEach(p => p.classList.remove('active'));
             const target = document.getElementById(id);
             target.style.display = 'block';
             setTimeout(() => { target.classList.add('active'); if(window.MathJax) MathJax.typeset(); }, 50);
@@ -313,17 +318,33 @@
             if(active) {
                 const media = active.querySelectorAll('video'); media.forEach(m => m.pause());
                 active.classList.remove('active');
-                setTimeout(() => { 
-                    active.style.display = 'none'; 
-                    document.getElementById('mainDashboard').classList.remove('hidden'); 
-                }, 500);
+                setTimeout(() => { active.style.display = 'none'; document.getElementById('mainDashboard').classList.remove('hidden'); }, 500);
             }
         }
 
-        // --- THEME & RÉVISION ---
-        function toggleTheme() {
-            document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        function initViewer(type, pages) {
+            currentMode = type; currentPage = 1; maxPages = pages;
+            const container = document.getElementById('viewerFrameContainer');
+            if(type === 'pdf') { container.classList.remove('landscape'); document.getElementById('viewerTitle').innerText = "Cours PDF"; }
+            else { container.classList.add('landscape'); document.getElementById('viewerTitle').innerText = "Présentation"; }
+            updateFrame(); openPage('p-viewer');
         }
+
+        function updateFrame() {
+            const frame = document.getElementById('viewerFrame');
+            const display = document.getElementById('pageDisplay');
+            let folder = (currentMode === "pdf") ? "Cours" : "Presentation";
+            let prefix = (currentMode === "pdf") ? "Nucleaire_cours_page" : "Nucleaire_presentation_page";
+            frame.src = `${folder}/${prefix}${currentPage}.pdf#toolbar=0&navpanes=0&scrollbar=0`;
+            display.innerText = `Page ${currentPage} / ${maxPages}`;
+        }
+
+        function changePage(delta) {
+            let next = currentPage + delta;
+            if (next >= 1 && next <= maxPages) { currentPage = next; updateFrame(); }
+        }
+
+        function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
 
         let revMode = false;
         function toggleRevisionMode() {
@@ -334,6 +355,13 @@
             });
             document.getElementById('revBtn').innerText = revMode ? "Normal" : "Révision";
         }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.module-tile').forEach(tile => {
+                tile.style.display = tile.innerText.toLowerCase().includes(term) ? 'flex' : 'none';
+            });
+        });
 
         window.onscroll = () => {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
