@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADAM HUB | Portail de Révision</title>
+    <title>NUCLEAR HUB - Révisions Terminale</title>
+    <!-- MathJax pour les formules physiques -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
-            /* Palette Apple Liquid Glass */
             --bg-light: #f5f5f7;
             --bg-dark: #000000;
-            --accent: #0071e3;
-            --accent-soft: rgba(0, 113, 227, 0.12);
-            --glass-bg: rgba(255, 255, 255, 0.72);
+            --accent: #ffcc00; 
+            --accent-soft: rgba(255, 204, 0, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.8);
             --glass-border: rgba(255, 255, 255, 0.4);
             --text-main: #1d1d1f;
             --text-secondary: #6e6e73;
+            --color-fission: #ff3b30; 
+            --color-mod: #0071e3;    
+            --color-safety: #34c759;  
+            --color-uranium: #af52de; 
             --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
             --blur: 30px;
         }
 
         [data-theme="dark"] {
             --bg-light: #000000;
-            --glass-bg: rgba(28, 28, 30, 0.75);
+            --glass-bg: rgba(28, 28, 30, 0.85);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #f5f5f7;
             --text-secondary: #a1a1a6;
@@ -30,230 +35,311 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
             background-color: var(--bg-light);
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: background 0.6s ease;
+            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- BACKGROUND BLOBS --- */
-        .bg-blobs {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden; filter: blur(100px);
-        }
-        .blob {
-            position: absolute; border-radius: 50%; opacity: 0.35;
-            animation: move 25s infinite alternate;
-        }
-        .blob-1 { width: 600px; height: 600px; background: var(--accent); top: -150px; right: -150px; }
-        .blob-2 { width: 500px; height: 500px; background: #5e5ce6; bottom: -100px; left: -150px; }
-        @keyframes move { from { transform: translate(0,0); } to { transform: translate(80px, 40px); } }
+        /* --- ARRIÈRE-PLAN ANIMÉ --- */
+        .bg-blobs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(100px); }
+        .blob { position: absolute; border-radius: 50%; opacity: 0.35; animation: move 25s infinite alternate; }
+        .blob-1 { width: 600px; height: 600px; background: var(--color-mod); top: -150px; right: -150px; }
+        .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -50px; left: -150px; }
+        @keyframes move { from { transform: translate(0, 0); } to { transform: translate(80px, 40px); } }
 
         /* --- NAVIGATION --- */
         nav {
-            position: sticky; top: 0; z-index: 1000;
-            height: 80px; background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur)) saturate(180%);
+            position: sticky; top: 0; z-index: 1000; height: 80px;
+            background: var(--glass-bg); backdrop-filter: blur(var(--blur)) saturate(180%);
             border-bottom: 1px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 10%;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
         }
         .logo { font-weight: 800; font-size: 24px; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
+        .logo span { color: var(--color-fission); }
 
-        .btn-theme {
-            background: var(--text-main); color: var(--bg-light); border: none;
-            padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer;
-            transition: 0.3s;
+        /* --- TOOLBAR --- */
+        .toolbar {
+            max-width: 1200px; margin: 30px auto; padding: 0 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
         }
+        .tool-btn {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 15px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: var(--text-main); box-shadow: var(--card-shadow);
+        }
+        .tool-btn:hover:not(.disabled) { transform: translateY(-4px); border-color: var(--color-fission); color: var(--color-fission); }
+        .tool-btn.disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
 
-        /* --- HERO SECTION --- */
-        header {
-            max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center;
+        /* --- DASHBOARD --- */
+        .dashboard {
+            max-width: 1200px; margin: 40px auto 100px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; padding: 0 20px;
         }
-        h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; }
-        .intro-text {
-            font-size: 20px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 40px;
-            font-weight: 400; line-height: 1.5;
-        }
+        .dashboard.hidden { display: none; }
 
-        /* --- SUBJECT SECTIONS --- */
-        .container { max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
-        
-        .subject-header {
-            margin: 60px 0 30px;
-            font-size: 28px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .subject-header::after {
-            content: ""; height: 1px; flex-grow: 1; background: var(--glass-border);
-        }
-
-        .lecon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-
-        .lecon-card {
+        .module-tile {
             background: var(--glass-bg); backdrop-filter: blur(var(--blur));
-            border: 1px solid var(--glass-border); border-radius: 40px;
-            padding: 40px; transition: all 0.4s cubic-bezier(0.15, 1, 0.3, 1);
-            box-shadow: var(--card-shadow);
-            display: flex; flex-direction: column;
+            border: 1px solid var(--glass-border); border-radius: 35px;
+            padding: 40px; cursor: pointer; transition: 0.4s cubic-bezier(0.15, 1, 0.3, 1);
+            box-shadow: var(--card-shadow); display: flex; flex-direction: column; min-height: 280px;
         }
-        .lecon-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .module-tile:hover { transform: translateY(-12px); border-color: var(--color-uranium); }
+        .module-tile .icon { font-size: 45px; margin-bottom: 25px; }
 
-        .lecon-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-        .lecon-card p { color: var(--text-secondary); margin-bottom: 25px; font-size: 16px; flex-grow: 1; }
-
-        /* --- BUTTONS --- */
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn {
-            padding: 12px; border-radius: 15px; text-decoration: none;
-            font-size: 13px; font-weight: 600; text-align: center;
-            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        /* --- PAGES DE CONTENU --- */
+        .content-page {
+            position: fixed; top: 80px; left: 0; width: 100%; height: calc(100vh - 80px);
+            background: var(--bg-light); z-index: 500; overflow-y: auto; padding: 60px 20px; display: none;
         }
-        .btn-primary { background: var(--accent); color: white; grid-column: span 2; margin-bottom: 5px; font-size: 15px; }
-        .btn-secondary { background: var(--accent-soft); color: var(--accent); }
-        .btn:hover { opacity: 0.8; transform: scale(0.98); }
+        .content-page.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 38px; }
-            .lecon-grid { grid-template-columns: 1fr; }
+        .page-container {
+            max-width: 1000px; margin: 0 auto 150px; background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur)); border: 1px solid var(--glass-border);
+            border-radius: 45px; padding: 60px; box-shadow: var(--card-shadow);
         }
+
+        .back-btn {
+            display: inline-flex; align-items: center; color: var(--color-mod);
+            font-weight: 800; margin-bottom: 50px; cursor: pointer; transition: 0.3s;
+            background: var(--accent-soft); padding: 12px 24px; border-radius: 16px;
+        }
+        .back-btn:hover { background: var(--color-mod); color: white; }
+
+        /* --- STYLES TEXTE --- */
+        h1 { font-size: 42px; font-weight: 900; margin-bottom: 30px; letter-spacing: -1.5px; }
+        h2 { color: var(--color-mod); margin-top: 40px; margin-bottom: 20px; font-size: 28px; border-left: 6px solid var(--accent); padding-left: 20px; }
+        .highlight-box { background: var(--accent-soft); border-radius: 25px; padding: 30px; margin: 30px 0; border: 1px solid rgba(255, 204, 0, 0.2); }
+        .formula-math { font-size: 1.5em; font-weight: 700; display: block; margin: 20px 0; color: var(--text-main); }
+
+        /* --- VISIONNEUSE PDF --- */
+        .viewer-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .viewer-frame-container {
+            width: 100%; border-radius: 30px; overflow: hidden; background: #fff;
+            border: 1px solid var(--glass-border); height: 80vh; box-shadow: var(--card-shadow);
+        }
+        .landscape { aspect-ratio: 16/9; height: auto !important; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .viewer-controls { display: flex; gap: 20px; margin-top: 30px; align-items: center; background: white; padding: 15px 30px; border-radius: 20px; }
+
+        #progress { position: fixed; top: 80px; left: 0; height: 5px; background: var(--color-fission); width: 0%; z-index: 1001; }
     </style>
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+    <div id="progress"></div>
+    <div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
 
     <nav>
-        <div class="logo">ADAM<span>HUB</span></div>
-        <button class="btn-theme" onclick="toggleTheme()">Thème 🌓</button>
+        <div class="logo">NUCLEAR<span>HUB</span></div>
+        <div style="display: flex; gap: 10px;">
+            <button class="tool-btn" onclick="toggleTheme()">🌓 Thème</button>
+            <button id="revBtn" class="tool-btn" onclick="toggleRevisionMode()">👁️ Révision</button>
+        </div>
     </nav>
 
-    <header>
-        <h1>Le savoir, avec clarté.</h1>
-        <p class="intro-text">
-            Bienvenue sur votre portail de révision intelligent. Retrouvez ici tous les chapitres de Spécialité, enrichis de supports multimédias interactifs.
-        </p>
-    </header>
+    <div class="toolbar">
+        <button class="tool-btn" onclick="initViewer('pdf', 7)">📄 Cours PDF (7p)</button>
+        <button class="tool-btn" onclick="openPage('p-video')">🎬 Vidéo Chapitre</button>
+        <button class="tool-btn disabled">🎧 Podcast (Coming Soon)</button>
+        <button class="tool-btn" onclick="openPage('p-info')">🖼️ Infographie</button>
+        <button class="tool-btn" onclick="initViewer('pres', 10)">📊 Présentation (10p)</button>
+    </div>
 
-    <div class="container">
-
-        <!-- SECTION ENS (PHYSIQUE) -->
-        <div class="subject-header">🔋 ENS (Physique)</div>
-        <div class="lecon-grid">
-            
-            <!-- Energie Electrique 1 -->
-            <div class="lecon-card">
-                <h3>Énergie : Atouts & Défis</h3>
-                <p>Analyse des atouts de l'électricité comme vecteur d'énergie et les contraintes liées à son stockage et son transport.</p>
-                <div class="btn-group">
-                    <a href="Energie electrique_attout_contrainte copie/attout_contrainte.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Energie electrique_attout_contrainte copie/attout_contraintes_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Energie electrique_attout_contrainte copie/attout_contraintes_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Energie electrique_attout_contrainte copie/attout_contraintes_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Energie electrique_attout_contrainte copie/attout_contraintes_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                </div>
-            </div>
-
-            <!-- Energie Electrique 2 (NOUVEAU) -->
-            <div class="lecon-card">
-                <h3>Production & Distribution</h3>
-                <p>Comment l'énergie électrique est-elle produite et distribuée ? Étude de l'alternateur, des chaînes énergétiques et des réseaux.</p>
-                <div class="btn-group">
-                    <a href="Energie electrique_Comment copie/energie_elec.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Energie electrique_Comment copie/Cours/energie_elec_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Energie electrique_Comment copie/energie_elec_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Energie electrique_Comment copie/energie_elec_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Energie electrique_Comment copie/energie_elec_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                    <a href="Energie electrique_Comment copie/energie_elec_poadcast.m4a" target="_blank" class="btn btn-secondary">🎙️ Podcast</a>
-                </div>
-            </div>
-
-            <!-- Nucléaire -->
-            <div class="lecon-card">
-                <h3>Nucléaire</h3>
-                <p>Comprendre le fonctionnement d'une filière nucléaire, du combustible aux réacteurs REP et EPR, avec ses enjeux énergétiques et technologiques.</p>
-                <div class="btn-group">
-                    <a href="Nucleaire/Nucleaire.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Nucleaire/Nucleaire_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Nucleaire/Nucleaire_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Nucleaire/Nucleaire.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Nucleaire/Nucleaire_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                </div>
-            </div>
-
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="mainDashboard">
+        <div class="module-tile" onclick="openPage('m1')">
+            <div class="icon">⚛️</div>
+            <h3>1. L'ADN d'une Filière</h3>
+            <p>Composants de base : Combustible, Modérateur et Caloporteur.</p>
         </div>
-        
-        <!-- SECTION MATHÉMATIQUES -->
-        <div class="subject-header">📐 Mathématiques</div>
-        <div class="lecon-grid">
-            
-            <!-- Chapitre 8 : LN -->
-            <div class="lecon-card">
-                <h3>Logarithme Népérien</h3>
-                <p>Propriétés algébriques, étude de fonction, limites et croissances comparées.</p>
-                <div class="btn-group">
-                    <a href="Chapitre 8 copie/Logarithme_neperien.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Chapitre 8 copie/Logarithme_neperien_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Chapitre 8 copie/Logarithme_neperien_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Chapitre 8 copie/Logarithme_neperien_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Chapitre 8 copie/Logarithme_neperien_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                </div>
-            </div>
-
-            <!-- Chapitre 9 : Produit Scalaire -->
-            <div class="lecon-card">
-                <h3>Produit Scalaire Espace</h3>
-                <p>Orthogonalité, équations cartésiennes de plans et calculs de distances dans l'espace.</p>
-                <div class="btn-group">
-                    <a href="Chapitre 9 copie/Produits_scalaires.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Chapitre 9 copie/Produits_scalaires_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Chapitre 9 copie/produits_scalaires_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Chapitre 9 copie/Produits_scalaires_video.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Chapitre 9 copie/Produits_scalaires_infographie_paysage.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                </div>
-            </div>
-
+        <div class="module-tile" onclick="openPage('m5')">
+            <div class="icon">🔄</div>
+            <h3>2. Le Standard REP</h3>
+            <p>Le fonctionnement détaillé des 3 circuits de la centrale française.</p>
         </div>
+        <div class="module-tile" onclick="openPage('m6')">
+            <div class="icon">🚀</div>
+            <h3>3. L'Avenir : L'EPR</h3>
+            <p>Sécurité renforcée et puissance optimisée pour la nouvelle génération.</p>
+        </div>
+    </div>
 
-        <!-- SECTION PHYSIQUE-CHIMIE -->
-        <div class="subject-header">🧪 Physique-Chimie</div>
-        <div class="lecon-grid">
+    <!-- PAGE VIDEO -->
+    <div id="p-video" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour Menu</div>
+            <h1>🎬 Vidéo de cours</h1>
+            <video controls style="width:100%; border-radius:30px; box-shadow: var(--card-shadow);">
+                <source src="Nucleaire.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+    </div>
+
+    <!-- PAGE INFOGRAPHIE -->
+    <div id="p-info" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour Menu</div>
+            <h1>🖼️ Infographie de Synthèse</h1>
+            <img src="Nucleaire_infographie.png" style="width:100%; border-radius:30px; border: 1px solid #ddd;">
+        </div>
+    </div>
+
+    <!-- PAGES DE COURS (CONTENU RICHE) -->
+    <div id="m1" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>1. L'ADN d'une Filière Nucléaire</h1>
+            <p>Une filière est une "recette" technologique unique. Elle est définie par trois piliers fondamentaux :</p>
             
-            <!-- Chapitre 5 : Thermodynamique -->
-            <div class="lecon-card">
-                <h3>Transferts Thermiques</h3>
-                <p>Premier principe de la thermodynamique, gaz parfaits et bilan radiatif terrestre.</p>
-                <div class="btn-group">
-                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.html" class="btn btn-primary">🚀 Cours Interactif</a>
-                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_cours.pdf" target="_blank" class="btn btn-secondary">📄 PDF</a>
-                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_presentation.pdf" target="_blank" class="btn btn-secondary">📊 Slides</a>
-                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5.mp4" target="_blank" class="btn btn-secondary">🎬 Vidéo</a>
-                    <a href="Chapitre 5 copie/Transferts_thermiques_Ph5_infographie.png" target="_blank" class="btn btn-secondary">🖼️ Fiche</a>
-                </div>
+            <h2>A. Le Combustible (Énergie)</h2>
+            <p>C'est la matière fissile. On utilise principalement :</p>
+            <ul>
+                <li><b>Uranium-235 :</b> Le seul isotope fissile naturel (environ 0.7% dans l'uranium naturel).</li>
+                <li><b>Plutonium-239 :</b> Isotope artificiel créé dans les réacteurs à partir de l'Uranium-238 fertile.</li>
+            </ul>
+
+            <h2>B. Le Modérateur (Vitesse)</h2>
+            <p>Les neutrons sont émis à 20 000 km/s. Le modérateur les ralentit à 2 km/s (neutrons thermiques) pour permettre la fission de l'U-235.</p>
+            <div class="highlight-box">
+                <span class="formula-math">V_{rapide} \to \text{Modérateur} \to V_{thermique}</span>
             </div>
 
+            <h2>C. Le Caloporteur (Chaleur)</h2>
+            <p>Fluide qui extrait la chaleur du cœur. Dans le REP, c'est de l'eau sous haute pression (155 bars).</p>
         </div>
+    </div>
 
+    <div id="m5" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>🔄 2. Le Standard REP</h1>
+            <p>Le Réacteur à Eau Pressurisée sépare physiquement la radioactivité de la production d'électricité :</p>
+            
+            <div class="highlight-box">
+                <b>1. Circuit Primaire :</b> L'eau chauffe au contact du combustible (Radioactif).<br>
+                <b>2. Circuit Secondaire :</b> La chaleur du primaire fait bouillir l'eau de ce circuit (Vapeur).<br>
+                <b>3. Circuit de Refroidissement :</b> Condense la vapeur pour recommencer le cycle.
+            </div>
+            <p>Cette séparation garantit qu'aucune particule radioactive ne sort vers les turbines ou l'environnement.</p>
+        </div>
+    </div>
+
+    <div id="m6" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1>🚀 3. L'Avenir : L'EPR</h1>
+            <p>L'Evolutionary Power Reactor est la 3ème génération de réacteurs :</p>
+            <ul>
+                <li><b>Puissance :</b> Plus de 1600 MWe.</li>
+                <li><b>Durable :</b> Conçu pour durer 60 ans.</li>
+                <li><b>Sécurité :</b> Double enceinte de confinement et "cendrier" (récupérateur de corium) en cas de fusion du cœur.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- VISIONNEUSE PDF DYNAMIQUE -->
+    <div id="p-viewer" class="content-page">
+        <div class="page-container">
+            <div class="back-btn" onclick="closePage()">← Retour</div>
+            <h1 id="viewerTitle">Document</h1>
+            <div class="viewer-container">
+                <div id="viewerFrameContainer" class="viewer-frame-container">
+                    <iframe id="viewerFrame" src=""></iframe>
+                </div>
+                <div class="viewer-controls">
+                    <button class="tool-btn" onclick="changePage(-1)">◀ Précédent</button>
+                    <span id="pageDisplay" style="font-weight: 800; min-width: 100px; text-align: center;">Page 1</span>
+                    <button class="tool-btn" onclick="changePage(1)">Suivant ▶</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const current = body.getAttribute('data-theme');
-            body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        let currentMode = ""; let currentPage = 1; let maxPages = 1;
+
+        // --- GESTION DES PDF (PAGES INDIVIDUELLES) ---
+        function initViewer(type, pages) {
+            currentMode = type; currentPage = 1; maxPages = pages;
+            const container = document.getElementById('viewerFrameContainer');
+            
+            if(type === 'pdf') {
+                container.classList.remove('landscape');
+                document.getElementById('viewerTitle').innerText = "Support de Cours PDF";
+            } else {
+                container.classList.add('landscape');
+                document.getElementById('viewerTitle').innerText = "Présentation Interactive";
+            }
+            updateFrame(); openPage('p-viewer');
         }
+
+        function updateFrame() {
+            const frame = document.getElementById('viewerFrame');
+            const display = document.getElementById('pageDisplay');
+            
+            // Correction des noms selon ta capture d'écran
+            let folder = (currentMode === "pdf") ? "Cours" : "Presentation";
+            let prefix = (currentMode === "pdf") ? "Nucleaire_cours_page" : "Nucleaire_presentation_page";
+            
+            frame.src = `${folder}/${prefix}${currentPage}.pdf#toolbar=0&navpanes=0&scrollbar=0`;
+            display.innerText = `Page ${currentPage} / ${maxPages}`;
+        }
+
+        function changePage(delta) {
+            let next = currentPage + delta;
+            if (next >= 1 && next <= maxPages) { currentPage = next; updateFrame(); }
+        }
+
+        // --- NAVIGATION ---
+        function openPage(id) {
+            document.getElementById('mainDashboard').classList.add('hidden');
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(id);
+            target.style.display = 'block';
+            setTimeout(() => { target.classList.add('active'); if(window.MathJax) MathJax.typeset(); }, 50);
+            window.scrollTo(0, 0);
+        }
+
+        function closePage() {
+            const active = document.querySelector('.content-page.active');
+            if(active) {
+                const media = active.querySelectorAll('video'); media.forEach(m => m.pause());
+                active.classList.remove('active');
+                setTimeout(() => { 
+                    active.style.display = 'none'; 
+                    document.getElementById('mainDashboard').classList.remove('hidden'); 
+                }, 500);
+            }
+        }
+
+        // --- THEME & RÉVISION ---
+        function toggleTheme() {
+            document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        }
+
+        let revMode = false;
+        function toggleRevisionMode() {
+            revMode = !revMode;
+            document.querySelectorAll('.formula-math').forEach(f => { 
+                f.style.filter = revMode ? 'blur(10px)' : 'none'; 
+                f.onclick = function() { this.style.filter = 'none'; }; 
+            });
+            document.getElementById('revBtn').innerText = revMode ? "Normal" : "Révision";
+        }
+
+        window.onscroll = () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("progress").style.width = (winScroll / height) * 100 + "%";
+        };
     </script>
 </body>
 </html>
